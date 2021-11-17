@@ -13,6 +13,7 @@ import simulation.Temps;
 
 
  //test mg
+ //test anna
 public class AppareilConstant implements Consommateur {
     /**
      * Cette classe a un attribut qui est sa puissance maximale (en W).
