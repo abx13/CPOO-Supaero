@@ -13,7 +13,7 @@ import simulation.Temps;
  * 
  * @author Anna Barraqué
  */
-public abstract class ProducteurCondExt implements Producteur {
+public class ProducteurCondExt implements Producteur {
     /**
      * Cette classe a 3 attributs: la puissance maximale du producteur,une HashMap
      * associant un pourcentage de production d'énergie à chaque saison, un tableau
