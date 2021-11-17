@@ -1,4 +1,4 @@
-package consommateurs.csv;
+package csv;
 
 import java.util.ArrayList;
 
