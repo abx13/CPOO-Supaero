@@ -28,8 +28,30 @@ public class Ville {
      * @param producteurs   est une liste de producteurs d'énergie de la ville
      * @param consommateurs est une liste de consommateurs d'énergie de la ville
      */
-    public Ville(ArrayList<Producteur> producteurs, ArrayList<Consommateur> consommateurs) {
+     public Ville(ArrayList<Producteur> producteurs, ArrayList<Consommateur> consommateurs) {
         this.producteurs = producteurs;
+        this.consommateurs = consommateurs;
+    }
+
+    /**
+     * Cette méthode est le constructeur pour instancier les listes de producteurs et consommateurs
+     */
+    public Ville() {
+        this.producteurs = new ArrayList<>();
+        this.consommateurs = new ArrayList<>();
+    }
+
+    /**
+     * Cette méthode est un setteur pour l'attribut producteurs 
+     */
+    public void setProducteur(ArrayList<Producteur> producteurs){
+        this.producteurs = producteurs;
+    }
+
+    /**
+     * Cette méthode est un setteur pour l'attribut consommateurs 
+     */
+    public void setConsommateur(ArrayList<Consommateur> consommateurs){
         this.consommateurs = consommateurs;
     }
 

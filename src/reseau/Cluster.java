@@ -16,9 +16,8 @@ public class Cluster extends Ville {
     private ArrayList<Cluster> route; // liste des clusters (possiblement vide) que doit emprunter l'énergie pour
                                       // aller du cluster producteur au cluster consommateur
 
-    public Cluster(int clusterNumber, double x, double y, int clusterProducteur, ArrayList<Cluster> routes,
-            ArrayList<Producteur> producteurs, ArrayList<Consommateur> consommateurs) {
-        super(producteurs, consommateurs);
+    public Cluster(int clusterNumber, double x, double y, int clusterProducteur, ArrayList<Cluster> routes) {
+        super();
         this.clusterNumber = clusterNumber;
         this.x = x;
         this.y = y;
@@ -27,11 +26,15 @@ public class Cluster extends Ville {
     }
 
     public double getX(){
-        return x;
+        return this.x;
     }
 
     public double getY(){
-        return y;
+        return this.y;
+    }
+
+    public int getClusterNumber(){
+        return this.clusterNumber;
     }
 
     public double distance(){
@@ -81,5 +84,7 @@ public class Cluster extends Ville {
 
         return clusterDay;
     }
+
+
 
 }

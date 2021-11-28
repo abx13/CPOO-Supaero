@@ -10,71 +10,75 @@ import java.util.Scanner;
 
 import consommateurs.*;
 import producteurs.*;
-
+import reseau.Cluster;
 
 public class Reader {
 
+    public static ArrayList<Cluster> readFile(String filename) {
 
-    public static ArrayList<Cluster> readFile(String filename){
-        
-        ArrayList<Cluster> clusters = new ArrayList<>(); 
+        ArrayList<Cluster> clusters = new ArrayList<>();
         int clusterIndex = 0;
 
-        try{
-            Scanner sc = new Scanner(new File(filename)); 
+        try {
+            Scanner sc = new Scanner(new File(filename));
             String res = sc.next();
             String[] s = res.split(";");
 
-            while (sc.hasNext()) {  
+            while (sc.hasNext()) {
 
-                switch (s[0]){
+                switch (s[0]) {
 
-                    case "Cluster": 
-                        clusters.add(Reader.readCluster(Arrays.copyOfRange(s, 1, s.length))); 
-                        clusterIndex ++;
+                    case "Cluster":
+                        clusters.add(Reader.readCluster(Arrays.copyOfRange(s, 1, s.length), clusters));
+                        clusterIndex++;
                         break;
-                    
-                    //Producteurs 
-                    case "Nucleaire" : 
-                        clusters.get(clusterIndex).setProducteur(Reader.readProducteurControle(Arrays.copyOfRange(s, 1, s.length)); 
+
+                    // Producteurs
+                    case "Nucleaire":
+                        clusters.get(clusterIndex)
+                                .setProducteur(Reader.readProducteurControle(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
                     case "Eolien":
-                        clusters.get(clusterIndex).setProducteur(Reader.readProducteurCondExt(Arrays.copyOfRange(s, 1, s.length)); 
+                        clusters.get(clusterIndex)
+                                .setProducteur(Reader.readProducteurCondExt(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
                     case "PV":
-                        clusters.get(clusterIndex).setProducteur(Reader.readProducteurCondExt(Arrays.copyOfRange(s, 1, s.length)); 
+                        clusters.get(clusterIndex)
+                                .setProducteur(Reader.readProducteurCondExt(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
-                    //Consommateurs
+                    // Consommateurs
                     case "Frigo":
-                        clusters.get(clusterIndex).setConsommateur(Reader.readAppareilConstant(Arrays.copyOfRange(s, 1, s.length)); 
+                        clusters.get(clusterIndex)
+                                .setConsommateur(Reader.readAppareilConstant(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
                     case "Radiateur":
-                        clusters.get(clusterIndex).setConsommateur(Reader.readAppareilCyclique(Arrays.copyOfRange(s, 1, s.length)); 
+                        clusters.get(clusterIndex)
+                                .setConsommateur(Reader.readAppareilCyclique(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
                     case "MachineCafe":
-                        clusters.get(clusterIndex).setConsommateur(Reader.readAppareilFrequentiel(Arrays.copyOfRange(s, 1, s.length)); 
+                        clusters.get(clusterIndex)
+                                .setConsommateur(Reader.readAppareilFrequentiel(Arrays.copyOfRange(s, 1, s.length)));
                         break;
 
                 }
 
-            }   
-            sc.close(); 
-            
+            }
+            sc.close();
 
-        }catch(FileNotFoundException e){
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } 
-        
-        return clusters; 
+        }
+
+        return clusters;
 
     }
 
-    public static Cluster readCluster(String[] s){
+    public static Cluster readCluster(String[] s, ArrayList<Cluster> clusters){
         //indice du cluster
         int clusterNumber = Integer.parseInt(s[0]);
         
@@ -91,14 +95,24 @@ public class Reader {
         if(s.length == 5){
             String[] routeString = s[4].split(",");
             for (int i=0; i<routeString.length; i++){
-                route.add(Integer.parseInt(routeString[i]));
+                int indexClusterRoute = Integer.parseInt(routeString[i]);
+                int index = 0;
+                boolean b = false;
+                while(b==false && index<clusters.size()){
+                   if(clusters.get(index).getClusterNumber() == indexClusterRoute){
+                    route.add(clusters.get(index));
+                    b = true;
+                   }else{
+                       index++;
+                   }
+                }
+               
             }
         }
-        
-        return new Cluster(clusterNumber, x, y, clusterProducteur, route);
+
+        return (new Cluster(clusterNumber, x, y, clusterProducteur,route));
 
     }
-
 
     public static ArrayList<Producteur> readProducteurControle(String[] s){
         ArrayList<Producteur> producteurs = new ArrayList<>(); 
@@ -135,8 +149,7 @@ public class Reader {
         }    
         return producteurs; 
     }
-    
-    
+
     public static ArrayList<Consommateur> readAppareilConstant(String[] s){
         ArrayList<Consommateur> appareils = new ArrayList<>();
         
@@ -149,7 +162,7 @@ public class Reader {
              
         return appareils; 
     }
-    
+
     public static ArrayList<Consommateur> readAppareilFrequentiel(String[] s){
         ArrayList<Consommateur> appareils = new ArrayList<>(); 
         
@@ -165,7 +178,6 @@ public class Reader {
         
         return appareils; 
     }
-
 
     public static ArrayList<Consommateur> readAppareilCyclique(String[] s){
         ArrayList<Consommateur> appareils = new ArrayList<>(); 
@@ -191,60 +203,4 @@ public class Reader {
         return appareils; 
     }
 
-    
-
-   
-
-    
-
-    /*public static ArrayList<Cluster> setDistanceCluster(ArrayList<Cluster> clusters, String filenameDistance){
-        double[][] distanceCluster = Reader.readDistanceCluster(filenameDistance);
-        //pour ameliorer faire avec clusterNumber plus que ordre de l'ArrayList
-        for (int i = 0; i<clusters.length; i++){
-            Cluster cluster = clusters.get(i);
-            int producteur = cluster.getProducteur();
-            int[] route = cluster.getRoute();
-            double distance = 0;
-            for(int j=0; j<route.length-1; j++){
-                distance += distanceCluster[j][j+1];
-            }
-            clusters.get(i).setDistance(distance);
-        }
-    }*/
-
-    /*public static double[][] readDistanceCluster(String filename){
-        double[][] distanceCluster = null; 
-        try{
-            Scanner sc = new Scanner(new File(filename)); 
-            String res = sc.next();
-            String[] s = res.split(";");
-
-            int nbCluster = s.length;
-            distanceCluster = new double[nbCluster][nbCluster];  
-            
-            int i = 0;
-            for(int j = 0; j<nbCluster; j++){
-                distanceCluster[i][j] = Double.parseDouble(s[i]);
-            }
-            
-            while (sc.hasNext()) {  
-                res = sc.next();
-                s = res.split(";");
-                
-                i++;
-                for(int j = 0; j<nbCluster; j++){
-                    distanceCluster[i][j] = Double.parseDouble(s[i]);
-                }
-            }          
-            sc.close(); 
-
-        }catch(FileNotFoundException e){
-            System.out.println("File Not Found");
-            e.printStackTrace();
-        }  
-        return distanceCluster; 
-    }*/
-    
-
 }
-
