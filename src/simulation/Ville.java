@@ -44,15 +44,21 @@ public class Ville {
     /**
      * Cette méthode est un setteur pour l'attribut producteurs 
      */
-    public void setProducteur(ArrayList<Producteur> producteurs){
-        this.producteurs = producteurs;
+    public void addProducteurs(ArrayList<Producteur> producteursAdd){
+        ArrayList<Producteur> prod = new ArrayList<>();
+        prod.addAll(this.producteurs);
+        prod.addAll(producteursAdd);
+        this.producteurs = prod;
     }
 
     /**
      * Cette méthode est un setteur pour l'attribut consommateurs 
      */
-    public void setConsommateur(ArrayList<Consommateur> consommateurs){
-        this.consommateurs = consommateurs;
+    public void addConsommateurs(ArrayList<Consommateur> consommateursAdd){
+        ArrayList<Consommateur> conso = new ArrayList<>();
+        conso.addAll(this.consommateurs);
+        conso.addAll(consommateursAdd);
+        this.consommateurs = conso;
     }
 
     /**

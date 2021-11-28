@@ -16,13 +16,17 @@ public class Cluster extends Ville {
     private ArrayList<Cluster> route; // liste des clusters (possiblement vide) que doit emprunter l'énergie pour
                                       // aller du cluster producteur au cluster consommateur
 
-    public Cluster(int clusterNumber, double x, double y, int clusterProducteur, ArrayList<Cluster> routes) {
+    public Cluster(int clusterNumber, double x, double y, int clusterProducteur) {
         super();
         this.clusterNumber = clusterNumber;
         this.x = x;
         this.y = y;
         this.clusterProducteur = clusterProducteur;
-        this.route = routes;
+        this.route = new ArrayList<Cluster>() ;
+    }
+
+    public void setRoute(ArrayList<Cluster> route){
+        this.route = route;
     }
 
     public double getX(){
