@@ -26,7 +26,7 @@ public class AppareilConstant implements Consommateur {
      * @param puissanceMax est la valeur décimale de la puissance maximale de
      *                     l'appareil
      */
-    public AppareilConstant(double puissanceMax) {
+     public AppareilConstant(double puissanceMax) {
         this.puissanceMax = puissanceMax;
     }
 
