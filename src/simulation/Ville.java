@@ -103,7 +103,7 @@ public class Ville {
                     puissanceMinute[i][2] = puissProdTot[i];
                     puissanceMinute[i][3] = 0.;
                     puissanceMinute[i][4] = cumulProd + (puissProdTot[i] / Temps.NBMINUTESHEURE);
-                    cumulProd = puissanceMinute[i][2];
+                    cumulProd = puissanceMinute[i][4];
                 }
             // format unitaire pour les consommateurs
             } else {
@@ -114,7 +114,7 @@ public class Ville {
                     puissanceMinute[i][2] = 0.;
                     puissanceMinute[i][3] = cumulConso + (puissConsoTot[i] / Temps.NBMINUTESHEURE);
                     puissanceMinute[i][4] = 0.;
-                    cumulConso = puissanceMinute[i][2];
+                    cumulConso = puissanceMinute[i][3];
                 }
             }
         // format scenario integre : num min, puissconso min, puissprod min, puissconso

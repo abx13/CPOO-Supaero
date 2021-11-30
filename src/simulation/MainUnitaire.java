@@ -26,6 +26,7 @@ public class MainUnitaire {
         // rapport journalier
         int journee = 1;
 
+        /*
         // FRIGO//
         // Vous pouvez changer la valeur de la puissance maximale du frigo (en W)
 
@@ -33,7 +34,7 @@ public class MainUnitaire {
 
         Consommateur frigo = new Frigo(puissanceMaxFrigo);
         SimulationScenario.playUnitaireConsommateur(frigo, journee);
-
+        */
         // RADIATEUR//
         // Vous pouvez changer la valeur de la puissance maximale du radiateur (en W)
         // ainsi que les pourcentages de consommation selon les saisons et les heures de
@@ -49,7 +50,7 @@ public class MainUnitaire {
 
         Consommateur radiateur = new Radiateur(puissanceMaxRadiateur, moisActifRadiateur, heureActifRadiateur);
         SimulationScenario.playUnitaireConsommateur(radiateur, journee);
-
+        /*
         // MACHINE A CAFE//
 
         // Vous pouvez changer la valeur de la puissance maximale de la machine a cafe
@@ -136,6 +137,6 @@ public class MainUnitaire {
 
         Producteur pv = new PV(puissanceMaxPV, moisActifPV, heureActifPV);
         SimulationScenario.playUnitaireProducteur(pv, journee);
-
+        */
     }
 }

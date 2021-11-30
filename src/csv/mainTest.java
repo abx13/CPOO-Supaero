@@ -3,6 +3,7 @@ package csv;
 import java.util.ArrayList;
 
 import reseau.Cluster;
+import simulation.SimulationScenario;
 import simulation.SimulationVille;
 
 public class mainTest {
@@ -18,6 +19,8 @@ public class mainTest {
             
 
         }
+
+        SimulationScenario.playUnitaireConsommateur(clusters.get(4).getConsommateurs().get(0), 22);
 
         
        
