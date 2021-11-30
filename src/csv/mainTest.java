@@ -13,13 +13,14 @@ public class mainTest {
             System.out.print(clusters.get(i).getClusterNumber()+" ");
             System.out.print(clusters.get(i).getProducteurs().size()+" ");
             System.out.println(clusters.get(i).getConsommateurs().size());
-           
+            SimulationVille.writeToCsvVille("Cluster"+(i+1)+"Day22", clusters.get(i).computeMinute(22, 0.5));
+            SimulationVille.writeToCsvVille("Cluster"+(i+1), clusters.get(i).computeDay(0.5));
             
 
         }
 
-        SimulationVille.displayVille(clusters.get(4).computeMinute(22, 0.5)); 
-        //SimulationVille.displayVille(clusters.get(0).computeDay(0.5)); 
+        
+       
         
         
 
