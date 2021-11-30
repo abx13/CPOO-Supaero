@@ -77,7 +77,7 @@ public class Cluster extends Ville {
     public double[][] computeDay(double coefPerte) {
         double[][] clusterDay = new double[Temps.NBJOURSANNEE][6];
         double[][] productionDay = super.computeDay();
-        for (int i = 0; i < Temps.NBMINUTESJOUR; i++){
+        for (int i = 0; i < Temps.NBJOURSANNEE; i++){
             clusterDay[i][0] = productionDay[i][0];
             clusterDay[i][1] = productionDay[i][1];
             clusterDay[i][2] = productionDay[i][2];
