@@ -37,22 +37,27 @@ public class Cluster extends Ville {
         this.route = new ArrayList<Cluster>() ;
     }
 
+
     public void setRoute(ArrayList<Cluster> route){
         this.route = route;
     }
+
 
     public double getX(){
         return this.x;
     }
 
+
     public double getY(){
         return this.y;
     }
+
 
     public int getClusterNumber(){
         return this.clusterNumber;
     }
 
+    
     /**
      * 
      * @return la distance parcourue par l'energie entre le cluster producteur et le
@@ -66,7 +71,7 @@ public class Cluster extends Ville {
             double y1 = route.get(i).getY();
             double y2 = route.get(i + 1).getY();
             dist += Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
-            ;
+            
         }
         return dist;
     }
