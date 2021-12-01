@@ -28,9 +28,37 @@ public class Ville {
      * @param producteurs   est une liste de producteurs d'énergie de la ville
      * @param consommateurs est une liste de consommateurs d'énergie de la ville
      */
-    public Ville(ArrayList<Producteur> producteurs, ArrayList<Consommateur> consommateurs) {
+     public Ville(ArrayList<Producteur> producteurs, ArrayList<Consommateur> consommateurs) {
         this.producteurs = producteurs;
         this.consommateurs = consommateurs;
+    }
+
+    /**
+     * Cette méthode est le constructeur pour instancier les listes de producteurs et consommateurs
+     */
+    public Ville() {
+        this.producteurs = new ArrayList<>();
+        this.consommateurs = new ArrayList<>();
+    }
+
+    /**
+     * Cette méthode est un setteur pour l'attribut producteurs 
+     */
+    public void addProducteurs(ArrayList<Producteur> producteursAdd){
+        ArrayList<Producteur> prod = new ArrayList<>();
+        prod.addAll(this.producteurs);
+        prod.addAll(producteursAdd);
+        this.producteurs = prod;
+    }
+
+    /**
+     * Cette méthode est un setteur pour l'attribut consommateurs 
+     */
+    public void addConsommateurs(ArrayList<Consommateur> consommateursAdd){
+        ArrayList<Consommateur> conso = new ArrayList<>();
+        conso.addAll(this.consommateurs);
+        conso.addAll(consommateursAdd);
+        this.consommateurs = conso;
     }
 
     /**
@@ -65,15 +93,17 @@ public class Ville {
         // format scenario unitaire: num min, puissconso min || puissprod min,
         // puissconso cumul || puissprod cumul
         if (producteurs.size() == 0 || consommateurs.size() == 0) {
-            puissanceMinute = new double[Temps.NBMINUTESJOUR][3];
+            puissanceMinute = new double[Temps.NBMINUTESJOUR][5];
             // format unitaire pour les producteurs
             if (consommateurs.size() == 0) {
                 puissProdTot = this.computeMinuteProducteur(journee);
                 for (int i = 0; i < Temps.NBMINUTESJOUR; i++) {
                     puissanceMinute[i][0] = i;
-                    puissanceMinute[i][1] = puissProdTot[i];
-                    puissanceMinute[i][2] = cumulProd + (puissProdTot[i] / Temps.NBMINUTESHEURE);
-                    cumulProd = puissanceMinute[i][2];
+                    puissanceMinute[i][1] = 0.;
+                    puissanceMinute[i][2] = puissProdTot[i];
+                    puissanceMinute[i][3] = 0.;
+                    puissanceMinute[i][4] = cumulProd + (puissProdTot[i] / Temps.NBMINUTESHEURE);
+                    cumulProd = puissanceMinute[i][4];
                 }
             // format unitaire pour les consommateurs
             } else {
@@ -81,8 +111,10 @@ public class Ville {
                 for (int i = 0; i < Temps.NBMINUTESJOUR; i++) {
                     puissanceMinute[i][0] = i;
                     puissanceMinute[i][1] = puissConsoTot[i];
-                    puissanceMinute[i][2] = cumulConso + (puissConsoTot[i] / Temps.NBMINUTESHEURE);
-                    cumulConso = puissanceMinute[i][2];
+                    puissanceMinute[i][2] = 0.;
+                    puissanceMinute[i][3] = cumulConso + (puissConsoTot[i] / Temps.NBMINUTESHEURE);
+                    puissanceMinute[i][4] = 0.;
+                    cumulConso = puissanceMinute[i][3];
                 }
             }
         // format scenario integre : num min, puissconso min, puissprod min, puissconso
@@ -101,7 +133,7 @@ public class Ville {
                 cumulConso = puissanceMinute[i][3];
                 cumulProd = puissanceMinute[i][4];
             }
-        }
+       }
 
         return puissanceMinute;
     }
@@ -196,7 +228,7 @@ public class Ville {
         // consommateurs et producteurs
 
         // scenario unitaire
-        if (producteurs.size() == 0 || consommateurs.size() == 0) {
+       /* if (producteurs.size() == 0 || consommateurs.size() == 0) {
 
             // format unitaire: num jour, puissconso jour || puissprod jour, puissconso
             // cumul || puissprod cumul
@@ -217,7 +249,7 @@ public class Ville {
             }
 
             // scenario integre
-        } else {
+        } else {*/
             puissanceDay = new double[Temps.NBJOURSANNEE][5];
 
             // on get les valeurs journalieres : on prend la derniere ligne du tableau
@@ -237,7 +269,7 @@ public class Ville {
                 cumulConso = puissanceDay[i][3];
                 cumulProd = puissanceDay[i][4];
             }
-        }
+        //}
 
         return puissanceDay;
     }

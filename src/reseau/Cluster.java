@@ -28,29 +28,29 @@ public class Cluster extends Ville {
      *                          au cluster consommateur
      * 
      */
-    public Cluster(int clusterNumber, double x, double y, int clusterProducteur, ArrayList<Cluster> routes) {
+    public Cluster(int clusterNumber, double x, double y, int clusterProducteur) {
         super();
         this.clusterNumber = clusterNumber;
         this.x = x;
         this.y = y;
         this.clusterProducteur = clusterProducteur;
-        this.route = routes;
+        this.route = new ArrayList<Cluster>() ;
     }
 
-    /**
-     * 
-     * @return x la longitude du cluster
-     */
-    public double getX() {
-        return x;
+    public void setRoute(ArrayList<Cluster> route){
+        this.route = route;
     }
 
-    /**
-     * 
-     * @return y la lattitude du cluster
-     */
-    public double getY() {
-        return y;
+    public double getX(){
+        return this.x;
+    }
+
+    public double getY(){
+        return this.y;
+    }
+
+    public int getClusterNumber(){
+        return this.clusterNumber;
     }
 
     /**
@@ -101,7 +101,7 @@ public class Cluster extends Ville {
     public double[][] computeDay(double coefPerte) {
         double[][] clusterDay = new double[Temps.NBJOURSANNEE][6];
         double[][] productionDay = super.computeDay();
-        for (int i = 0; i < Temps.NBMINUTESJOUR; i++) {
+        for (int i = 0; i < Temps.NBJOURSANNEE; i++){
             clusterDay[i][0] = productionDay[i][0];
             clusterDay[i][1] = productionDay[i][1];
             clusterDay[i][2] = productionDay[i][2];
@@ -112,5 +112,7 @@ public class Cluster extends Ville {
 
         return clusterDay;
     }
+
+
 
 }
