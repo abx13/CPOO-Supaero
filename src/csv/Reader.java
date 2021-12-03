@@ -98,7 +98,10 @@ public class Reader {
 
     /**
      * Cette méthode permet de lire le fichier décrivant la route d'un cluster à son
-     * cluster producteur associé, et d'ajouter cette route au cluster
+     * cluster producteur associé, et d'ajouter cette route au cluster.
+     * Cette méthode est appelée après la méthode pour lire les clusters car elle a
+     * besoin d'avoir une liste préalablement établie de clusters, pour pouvoir les
+     * identifier à un chemin.
      * 
      * @param filename, le fichier csv correspondant
      * @param clusters, la liste de clusters préalablement établie avec le numéro du
@@ -162,7 +165,8 @@ public class Reader {
      * 
      * @param filename, le fichier csv correspondant
      * @param clusters, la liste de clusters préalablement établie
-     * @return clusters, la liste de clusters à laquelle on a rajouté les producteurs.
+     * @return clusters, la liste de clusters à laquelle on a rajouté les
+     *         producteurs.
      */
     public static ArrayList<Cluster> readProducteurs(String filename, ArrayList<Cluster> clusters) {
         try {
@@ -193,11 +197,16 @@ public class Reader {
         return clusters;
 
     }
+
     /**
-     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la production est constante (Nucléaire).
-     * @param s, le tableau de String lus par la méthode ReadProducteurs comportant les paramètres de ce producteur
+     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la
+     * production est constante (Nucléaire).
+     * 
+     * @param s,        le tableau de String lus par la méthode ReadProducteurs
+     *                  comportant les paramètres de ce producteur
      * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs constants.
+     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs
+     *         constants.
      */
     public static ArrayList<Cluster> readProducteurControle(String[] s, ArrayList<Cluster> clusters) {
 
@@ -222,11 +231,16 @@ public class Reader {
 
         return clusters;
     }
+
     /**
-     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la production dépend des conditions extérieures (Eolien ou PV).
-     * @param s, le tableau de String lus par la méthode ReadProducteurs comportant les paramètres de ce producteur
+     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la
+     * production dépend des conditions extérieures (Eolien ou PV).
+     * 
+     * @param s,        le tableau de String lus par la méthode ReadProducteurs
+     *                  comportant les paramètres de ce producteur
      * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs dépendant des conditions extérieures.
+     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs
+     *         dépendant des conditions extérieures.
      */
     public static ArrayList<Cluster> readProducteurCondExt(String[] s, ArrayList<Cluster> clusters) {
 
@@ -263,15 +277,19 @@ public class Reader {
 
         return clusters;
     }
+
     /**
-     * Cette méthode permet de lire le fichier de consommateurs. Cette méthode appelle
+     * Cette méthode permet de lire le fichier de consommateurs. Cette méthode
+     * appelle
      * ensuite d'autres méthodes qui sont spécifique à la lecture des différents
-     * types de consommateurs existants. Elle ajoute ensuite les consommateurs lus au
+     * types de consommateurs existants. Elle ajoute ensuite les consommateurs lus
+     * au
      * cluster auquel ils sont associés.
      * 
      * @param filename, le fichier csv correspondant
      * @param clusters, la liste de clusters préalablement établie
-     * @return clusters, la liste de clusters à laquelle on a rajouté les consommateurs.
+     * @return clusters, la liste de clusters à laquelle on a rajouté les
+     *         consommateurs.
      */
     public static ArrayList<Cluster> readConsommateurs(String filename, ArrayList<Cluster> clusters) {
         try {
@@ -302,11 +320,16 @@ public class Reader {
         return clusters;
 
     }
+
     /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont la consommation est constante (Frigo).
-     * @param s, le tableau de String lus par la méthode ReadProducteurs comportant les paramètres de ce consommateur
+     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
+     * la consommation est constante (Frigo).
+     * 
+     * @param s,        le tableau de String lus par la méthode ReadProducteurs
+     *                  comportant les paramètres de ce consommateur
      * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les consommateurs constants.
+     * @return clusters, la liste de cluster à laquelle on a rajouté les
+     *         consommateurs constants.
      */
     public static ArrayList<Cluster> readAppareilConstant(String[] s, ArrayList<Cluster> clusters) {
 
@@ -331,10 +354,14 @@ public class Reader {
     }
 
     /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont la consommation est fréquentielle (Machine à Café).
-     * @param s, le tableau de String lus par la méthode ReadProducteurs comportant les paramètres de ce consommateur
+     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
+     * la consommation est fréquentielle (Machine à Café).
+     * 
+     * @param s,        le tableau de String lus par la méthode ReadProducteurs
+     *                  comportant les paramètres de ce consommateur
      * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les consommateurs fréquentiels.
+     * @return clusters, la liste de cluster à laquelle on a rajouté les
+     *         consommateurs fréquentiels.
      */
     public static ArrayList<Cluster> readAppareilFrequentiel(String[] s, ArrayList<Cluster> clusters) {
 
@@ -366,10 +393,14 @@ public class Reader {
     }
 
     /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont la consommation est cyclique (Radiateur).
-     * @param s, le tableau de String lus par la méthode ReadProducteurs comportant les paramètres de ce consommateur
+     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
+     * la consommation est cyclique (Radiateur).
+     * 
+     * @param s,        le tableau de String lus par la méthode ReadProducteurs
+     *                  comportant les paramètres de ce consommateur
      * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les consommateurs cycliques.
+     * @return clusters, la liste de cluster à laquelle on a rajouté les
+     *         consommateurs cycliques.
      */
     public static ArrayList<Cluster> readAppareilCyclique(String[] s, ArrayList<Cluster> clusters) {
 
@@ -408,11 +439,15 @@ public class Reader {
     }
 
     /**
-     * Cette méthode permet de trouver l'indice dans l'arraylist de clusters d'un cluster à partir de son numéro de cluster (attribut clusterNumber).
+     * Cette méthode permet de trouver l'indice dans l'arraylist de clusters d'un
+     * cluster à partir de son numéro de cluster (attribut clusterNumber).
+     * 
      * @param clusterNumber, le numéro du cluster cherché
-     * @param clusters, l'array comportant tous les cluster
+     * @param clusters,      l'array comportant tous les cluster
      * @return index, l'index du cluster cherché dans l'arraylist
-     * @throws IndexNotFoundException, exception levée si jamais le numéro du cluster n'est pas trouvé dans la liste de cluster.
+     * @throws IndexNotFoundException, exception levée si jamais le numéro du
+     *                                 cluster n'est pas trouvé dans la liste de
+     *                                 cluster.
      */
     public static int findIndexCluster(int clusterNumber, ArrayList<Cluster> clusters) throws IndexNotFoundException {
 
@@ -430,9 +465,11 @@ public class Reader {
     }
 
     /**
-     * Cette méthode permet de convertir chaque élément d'un tableau de String en un élément Double dans un tableau de Double.
+     * Cette méthode permet de convertir chaque élément d'un tableau de String en un
+     * élément Double dans un tableau de Double.
+     * 
      * @param s, le tableau de String que l'on veut convertir
-     * @return doubles, le tableau converti en Double 
+     * @return doubles, le tableau converti en Double
      */
     public static Double[] toDoubles(String[] s) {
         Double[] doubles = new Double[s.length];
