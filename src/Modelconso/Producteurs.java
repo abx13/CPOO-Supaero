@@ -7,6 +7,7 @@ import simulation.Temps;
 public class Producteurs {
 
     private String name;
+    private String title;
     private double[] table;
 
     /**
@@ -16,6 +17,8 @@ public class Producteurs {
     public Producteurs(String nom) {
 
         if (nom.equals("eolien")) {
+
+            setName("eolien");
 
             double limit_Betz = 0.59; // limite theorique du rendement
 
@@ -29,16 +32,16 @@ public class Producteurs {
             if (Param.display_day) {
                 double[] tableau_puissance = fonction.sinusoide(p_Max * 1.1, Temps.NBMINUTESJOUR);
 
-                
                 op.ecretage(tableau_puissance, p_Max);
                 op.ecretage(tableau_puissance, Param.p_max_eolienne);
                 op.decalage_tempo(tableau_puissance, 400);
                 op.bruitBlanc(tableau_puissance, 5);
                 op.seulement_positif(tableau_puissance);
-                op.ecretage(tableau_puissance, p_Max);   // on refait les ecretage pour que le bruit blanc ne depasse pas la puissance max autorisé
+                op.ecretage(tableau_puissance, p_Max); // on refait les ecretage pour que le bruit blanc ne depasse pas
+                                                       // la puissance max autorisé
                 op.ecretage(tableau_puissance, Param.p_max_eolienne);
 
-                setName("Puissance d'une Eolienne sur une journée");
+                setTitle("Puissance d'une Eolienne sur une journée");
                 setTable(tableau_puissance);
             } else {
                 double[] tableau_puissance = new double[Temps.NBJOURSANNEE];
@@ -53,100 +56,81 @@ public class Producteurs {
                 }
                 op.ecretage(tableau_puissance, Param.p_max_eolienne);
 
-                setName("Puissance d'une Eolienne sur une année");
+                setTitle("Puissance d'une Eolienne sur une année");
                 setTable(tableau_puissance);
             }
 
         }
 
-    
+        if (nom.equals("nucleaire")) {
 
-
-
-
-    if (nom.equals("nucleaire")) {
-
-        
+            setName("nucleaire");
 
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
             double[] tableau_puissance = fonction.creneauDouble(Param.p_max_nucl, 0.8, 30, 0.4);
-    
+
             op.ecretage(tableau_puissance, 999);
-    
-            setName("nucleaire");
+
+            setTitle("nucleaire");
             setTable(tableau_puissance);
-    
+
             if (!Param.display_day) {
-    
-            
+
                 double[] tableau_pui = new double[Temps.NBJOURSANNEE];
                 for (int j = 0; j < Temps.NBJOURSANNEE; j++) {
-    
+
                     tableau_pui[j] = Param.p_max_nucl;
-    
+
                 }
-    
-                setName("Puissance d'une centrale sur une année");
+
+                setTitle("Puissance d'une centrale sur une année");
                 setTable(tableau_puissance);
             }
         }
-    
-        
-    
 
+        if (nom.equals("solaire")) {
 
-
-
-
-
-    if (nom.equals("solaire")) {
-
-        
+            setName("solaire");
 
             double ensoleillement = Soleil.ensoleillement(Param.jour); // en m/s
-    
+
             double p_Max = Param.rendement_sol * ensoleillement; // definition de la puissance max d'un metre carré de
                                                                  // panneau solaire
-    
+
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
-    
+
             if (Param.display_day) {
                 double[] tableau_puissance = fonction.sinusoide(p_Max * 1.15, Temps.NBMINUTESJOUR);
-    
+
                 op.seulement_positif(tableau_puissance);
                 op.ecretage(tableau_puissance, p_Max);
                 op.decalage_tempo(tableau_puissance, 400);
-    
-                setName("Puissance d'un mètre carré de panneau sur une journée");
+
+                setTitle("Puissance d'un mètre carré de panneau sur une journée");
                 setTable(tableau_puissance);
             } else {
                 double[] tableau_puissance = new double[Temps.NBJOURSANNEE];
                 for (int j = 0; j < Temps.NBJOURSANNEE; j++) {
                     double ensoleillement_jour = Soleil.ensoleillement(j);
-                    double p_max_jour = Param.rendement_sol * ensoleillement_jour / 1000000;// on definit la puissance sur
-                                                                                            // une journée d'un metre carré
+                    double p_max_jour = Param.rendement_sol * ensoleillement_jour / 1000000;// on definit la puissance
+                                                                                            // sur
+                                                                                            // une journée d'un metre
+                                                                                            // carré
                                                                                             // de panneau
                     tableau_puissance[j] = 0.4 * p_max_jour;// marche à peu près 40% du temps d'où le facteur 0.4: très
                                                             // approximatif
-    
+
                 }
-    
-                setName("Puissance d'un metre carré de panneau solaire sur une année");
+
+                setTitle("Puissance d'un metre carré de panneau solaire sur une année");
                 setTable(tableau_puissance);
-    
+
             }
         }
-    
-        }
 
-
-
-
-    
-
-
+    }
 
     public void display() {
 
@@ -161,22 +145,47 @@ public class Producteurs {
 
         EventQueue.invokeLater(() -> {
 
-            var ex = new LineChartEx(table, legende_X, legende_Y, name);
+            var ex = new LineChartEx(table, legende_X, legende_Y, title);
             ex.setVisible(true);
 
         });
 
     }
 
+    public void display(double[] tableau, String titre) {
 
-        
+        String legende_x = "temps en min";
+        if (!Param.display_day) {
+            legende_x = "temps en jour";
 
-    public String getName() {
-        return this.name;
+        }
+
+        String legende_Y = "Puissance en MW";
+        String legende_X = legende_x;
+
+        EventQueue.invokeLater(() -> {
+
+            var ex = new LineChartEx(tableau, legende_X, legende_Y, titre);
+            ex.setVisible(true);
+
+        });
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getName() {
+        return this.title;
+    }
+
+    public void setName(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public double[] getTable() {
@@ -185,20 +194,13 @@ public class Producteurs {
 
     public void setTable(double[] table) {
         this.table = table;
-
     }
-
 
     public static void main(String[] args) {
         Producteurs eolienne = new Producteurs("eolien");
-        
-        
-        
-        eolienne.display();
 
+        eolienne.display();
 
     }
 
 }
-
-
