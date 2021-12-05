@@ -2,7 +2,17 @@ package Modelconso;
 
 import simulation.Temps;
 
+/**
+ * permet de creer les modeles des producteurs et des consommateurs simplement
+ */
+
 public class FonctionAbstraites {
+    /**
+     * 
+     * @param a
+     * @param b
+     * @return
+     */
 
 
  

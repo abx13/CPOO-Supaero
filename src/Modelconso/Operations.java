@@ -115,6 +115,27 @@ public class Operations {
 
 
 
+    public void sum(double[] tableau_Puissance_Change, double[] tableau_Puissance2 ) {
+
+        if (Param.display_day) {
+            for (int t = 0; t < Temps.NBMINUTESJOUR; t++) {
+                
+                    tableau_Puissance_Change[t] += tableau_Puissance2[t];
+                
+
+            }
+        }
+
+        if (!Param.display_day) {
+            for (int t = 0; t < Temps.NBJOURSANNEE; t++) {
+                tableau_Puissance_Change[t] += tableau_Puissance2[t];
+
+            }
+        }
+       
+    }
+
+
 
     /**
      * 

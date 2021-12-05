@@ -2,7 +2,9 @@ package Modelconso;
 
 import java.awt.EventQueue;
 import simulation.Temps;
-
+/**
+ * classe qui regroupe les appareils et industries et qui creer un tableau de puissance pour chacun, soit sur une journée soit sur l'année
+ */
 public class Consommateurs {
     private String name;
     private String title;
@@ -25,7 +27,7 @@ public class Consommateurs {
             op.troncage_tempo(tableau_puissance, index_troncage);
             op.decalage_tempo(tableau_puissance, 300);
 
-            setName("Machine a cafe");
+            setTitle(title);
             setTable(tableau_puissance);
 
             if (!Param.display_day) {
@@ -37,7 +39,7 @@ public class Consommateurs {
 
                 }
 
-                setName("Puissance d'une machine à cafe sur une année");
+                setTitle("Puissance d'une machine à cafe sur une année");
                 setTable(tableau_puissance);
 
             }
@@ -52,13 +54,14 @@ public class Consommateurs {
             setName("radiateur");
 
             
-            double p_Max_jour = 5;
+            double p_Max_jour = 0;
            
         
 
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
 
+            // on va creer le model à partir des saisons
             if (Param.display_day) {
                 int mois = simulation.Temps.dayToMonth(Param.jour);
                 String saison = simulation.Temps.monthToSeason(mois);
@@ -83,7 +86,7 @@ public class Consommateurs {
 
                 op.decalage_tempo(tableau_puissance, 400);
 
-                setName("Puissance d'un radiateur sur une journée");
+                setTitle("Puissance d'un radiateur sur une journée");
                 setTable(tableau_puissance);
 
             } else {
@@ -112,7 +115,7 @@ public class Consommateurs {
                 }
                 
 
-                setName("Puissance d'un radiateur sur une année");
+                setTitle("Puissance d'un radiateur sur une année");
                 setTable(tableau_puissance);
             }
 
@@ -127,13 +130,13 @@ public class Consommateurs {
             double[] tableau_puissance = fonction.constante(Param.p_frigo);
 
 
-            setName("frigo");
+            setTitle("consomation du frigo sur une journee");
             setTable(tableau_puissance);
 
             if (!Param.display_day) {
               
 
-                setName("Consomation d'un frigo sur une année");
+                setTitle("Consomation d'un frigo sur une année");
                 setTable(tableau_puissance);
 
             }
@@ -157,7 +160,7 @@ public class Consommateurs {
             op.abs(tableau_puissance);
             op.bruitBlanc(tableau_puissance, 10);
 
-            setName("Industrie Type 1");
+            setTitle("Industrie Type 1 Puissance");
             setTable(tableau_puissance);
             }
             else{
@@ -169,7 +172,7 @@ public class Consommateurs {
 
                 }
 
-                setName("Consomation d'une industrie type 1 sur une année");
+                setTitle("Consomation d'une industrie type 1 sur une année");
                 setTable(tableau_pui);
 
             }
@@ -191,7 +194,7 @@ public class Consommateurs {
 
             op.decalage_tempo(tableau_puissance, 800);
 
-            setName("Industrie Type 2");
+            setTitle("Industrie Type 2 Puissance");
             setTable(tableau_puissance);
             }
             else{
@@ -203,7 +206,7 @@ public class Consommateurs {
 
                 }
 
-                setName("Consomation d'une industrie type 2 sur une année");
+                setTitle("Consomation d'une industrie type 2 sur une année");
                 setTable(tableau_pui);
 
             }
@@ -212,6 +215,7 @@ public class Consommateurs {
         }
         if (nom.equals("industrie3")) {
 
+            // industrie type 3, on utilise un peu les fonctions et operations ...
             setName("industrie 3");
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
@@ -221,9 +225,21 @@ public class Consommateurs {
             double[] tableau_puissance = fonction.pwm(Param.p_max_industrie3, periode, rapportCyclique);
 
             op.decalage_tempo(tableau_puissance, 400);
-            op.bruitBlanc(tableau_puissance, 50);
+            
+            
+            FonctionAbstraites fonction_ajoute = new FonctionAbstraites();
+            double[] table_ajout = fonction_ajoute.affine(0.001, Param.p_max_industrie3/4);
+            op.sum(tableau_puissance, table_ajout);
 
-            setName("Industrie Type 3");
+            FonctionAbstraites fonction_ajoute2 = new FonctionAbstraites();
+            double[] table_ajout2 = fonction_ajoute2.affine(-0.002, -Param.p_max_industrie3/4);
+            op.troncage_tempo(table_ajout2, 500);
+            op.decalage_tempo(table_ajout2, 900);
+            op.sum(tableau_puissance, table_ajout2);
+            op.bruitBlanc(tableau_puissance, 10);
+            
+
+            setTitle("Industrie Type 3 Puissance");
             setTable(tableau_puissance);
             }
             else{
@@ -237,7 +253,7 @@ public class Consommateurs {
 
                 }
 
-                setName("Consomation d'une indusytie type 3 sur une année");
+                setTitle("Consomation d'une indusytie type 3 sur une année");
                 setTable(tableau_pui);
 
             }

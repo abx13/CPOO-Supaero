@@ -15,24 +15,24 @@ public class Soleil {
         double ensoleillement_max = 1000;
         
         if (saison == "summer"){
-            ensoleillement = ensoleillement_max/2 + Math.random()*ensoleillement_max/2; //en W/m2
+            ensoleillement = ensoleillement_max/2 + Math.random()*ensoleillement_max; //en W/m2 
             
 
         }
         if (saison == "fall"){
-            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max/2)/1.6; //source oubliée
+            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max)/1.6; //source meteo-express.com
 
         }
         if (saison == "winter"){
-            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max/2)/2.8;
+            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max)/2.8;
 
         }
         if (saison == "spring"){
-            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max/2)/1.6; 
+            ensoleillement = (ensoleillement_max/2 + Math.random()*ensoleillement_max)/1.6; 
 
         }
         
-        if (ensoleillement>=ensoleillement_max){
+        if (ensoleillement>=ensoleillement_max){ // ecretage de l'ensoleillement
             ensoleillement = ensoleillement_max;
         }
 
