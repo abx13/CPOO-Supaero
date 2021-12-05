@@ -214,12 +214,12 @@ public class Reader {
                             producteurs.add(new producteurs.Producteur(name));
                         }
                     } else {
-                        if (name.equals("industrie1") || name.equals("industrie2") || name.equals("industrie3")) {
+                        if (name.equals("Petite_Industrie") || name.equals("Moyenne_Industrie") || name.equals("Grande_Industrie")) {
                             for (int j = 0; j < nombre; j++) {
                                 consommateurs.add(new consommateurs.Consommateur(name));
                             }
                         }else{
-                            if(name.equals("foyer1")||name.equals("foyer2")){
+                            if(name.equals("Foyer1")||name.equals("Foyer2")){
                                 int nbFrigo = Integer.parseInt(element[2]);
                                 int nbMachineCafe = Integer.parseInt(element[3]);
                                 int nbRadiateur = Integer.parseInt(element[4]);

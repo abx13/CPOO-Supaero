@@ -52,5 +52,9 @@ public class Foyer extends Consommateur {
         return table;
     }
 
+    public ArrayList<Consommateur> getAppareils(){
+        return this.appareils;
+    }
+
     
 }

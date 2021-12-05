@@ -73,6 +73,7 @@ public class Ville {
         return this.consommateurs;
     }
 
+    
 
 
 }
