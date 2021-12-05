@@ -28,7 +28,7 @@ public class SimulationVille {
         String name = c.getClass().getName().substring("consommateur.".length() + 1, c.getClass().getName().length());
         if (c.getClass() == Foyer.class) {
             Foyer f = (Foyer) c;
-            name = f.getType().toString();
+            name = f.getName();
         }
         return "rapport." + name;
     }

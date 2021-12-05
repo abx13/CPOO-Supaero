@@ -1,5 +1,7 @@
 package producteurs;
 
+import Modelconso.Producteurs;
+
 /**
  * Cette interface définit les méthodes que doit comporter tout producteur.
  * 
@@ -16,5 +18,12 @@ public class Producteur {
     public String getName(){
         return this.getName();
     }
+
+    public double[] getTable(){
+        Producteurs p = new Producteurs(this.name);
+        return p.getTable();
+    }
+
+    
 
 }

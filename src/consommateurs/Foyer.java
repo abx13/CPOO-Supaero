@@ -2,6 +2,8 @@ package consommateurs;
 
 import java.util.ArrayList;
 
+import Modelconso.Consommateurs;
+
 
 /**
  * Cette classe permet de construire un Foyer puis de calculer sa consommation
@@ -35,9 +37,20 @@ public class Foyer extends Consommateur {
     }
 
     public double[] getTable(){
-        
-        for(int i=0; i<appareils.size(); i++){
-
+        double[][] puiss = new double[this.appareils.size()][];
+        for(int i=0; i<this.appareils.size(); i++){
+            Consommateurs c = new Consommateurs(this.appareils.get(i).getName());
+            puiss[i] = c.getTable();
         }
+
+        double[] table = new double[puiss[0].length];
+        for(int i=0; i< table.length; i++){
+            for(int j=0; j<this.appareils.size(); j++){
+                table[i] += puiss[j][i];
+            }
+        }
+        return table;
     }
+
+    
 }

@@ -3,10 +3,9 @@ package csv;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
+import Modelconso.Param;
 import consommateurs.*;
 import producteurs.*;
 import reseau.Cluster;
@@ -177,15 +176,10 @@ public class Reader {
                 double p_max_industrie1 = Double.parseDouble(s[8]);
                 double p_max_industrie2 = Double.parseDouble(s[9]);
                 double p_max_industrie3 = Double.parseDouble(s[10]);
+                double p_max_radiateur = Double.parseDouble(s[11]);
 
-                int nbFrigoFoyer1 = Integer.parseInt(s[11]);
-                int nbFrigoFoyer2 = Integer.parseInt(s[12]);
-                int nbRadiateurFoyer1 = Integer.parseInt(s[13]);
-                int nbRadiateurFoyer2 = Integer.parseInt(s[14]);
-                int nbMachineCafeFoyer1 = Integer.parseInt(s[15]);
-                int nbMachineCafeFoyer2 = Integer.parseInt(s[16]);
-
-                Param.setParam(jour, rendement, p_max_nucleaire, diametre, p_max_eolienne, p_max_cafe, nb_utilisation_jour_cafe,p_frigo, p_max_industrie1, p_max_industrie2, p_max_industrie3 );
+                
+                Param.setParam(jour, rendement, p_max_nucleaire, diametre, p_max_eolienne, p_max_cafe, nb_utilisation_jour_cafe,p_frigo, p_max_industrie1, p_max_industrie2, p_max_industrie3, p_max_radiateur);
 
             }
             sc.close();
@@ -202,6 +196,7 @@ public class Reader {
             while (sc.hasNext()) {
                 String res = sc.next();
                 String[] s = res.split(";");
+                System.out.println(s.length);
 
                 ArrayList<Producteur> producteurs = new ArrayList<>();
                 ArrayList<Consommateur> consommateurs = new ArrayList<>();

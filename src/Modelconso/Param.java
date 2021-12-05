@@ -29,19 +29,19 @@ public class Param {
         this.display_day = display_day;
     }
 
-    public void setParam(int jour, double rendement_sol, double p_max_nucl, double diametre, double p_max_eolienne, double p_max_cafe, int nb_utilisation_jour_cafe, double p_frigo, double p_max_industrie1, double p_max_industrie2, double p_max_industrie3, double p_max_radiateur){
-        this.jour = jour;
-        this.rendement_sol = rendement_sol;
-        this.p_max_nucl = p_max_nucl;
-        this.p_frigo = p_frigo;
-        this.p_max_cafe = p_max_cafe;
-        this.p_max_eolienne = p_max_eolienne;
-        this.p_max_industrie1 = p_max_industrie1;
-        this.p_max_industrie2 = p_max_industrie2;
-        this.p_max_industrie3 = p_max_industrie3;
-        this.diametre = diametre;
-        this.nb_utilisation_jour_cafe = nb_utilisation_jour_cafe;
-        this.p_max_radiateur = p_max_radiateur;
+    public static void setParam(int jour, double rendement_sol, double p_max_nucl, double diametre, double p_max_eolienne, double p_max_cafe, int nb_utilisation_jour_cafe, double p_frigo, double p_max_industrie1, double p_max_industrie2, double p_max_industrie3, double p_max_radiateur){
+        Param.jour = jour;
+        Param.rendement_sol = rendement_sol;
+        Param.p_max_nucl = p_max_nucl;
+        Param.p_frigo = p_frigo;
+        Param.p_max_cafe = p_max_cafe;
+        Param.p_max_eolienne = p_max_eolienne;
+        Param.p_max_industrie1 = p_max_industrie1;
+        Param.p_max_industrie2 = p_max_industrie2;
+        Param.p_max_industrie3 = p_max_industrie3;
+        Param.diametre = diametre;
+        Param.nb_utilisation_jour_cafe = nb_utilisation_jour_cafe;
+        Param.p_max_radiateur = p_max_radiateur;
         
     
 

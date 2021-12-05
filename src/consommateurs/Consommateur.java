@@ -1,5 +1,7 @@
 package consommateurs;
 
+import Modelconso.Consommateurs;
+
 /**
  * Cette interface définit les méthodes que doit comporter tout consommateur.
  * 
@@ -15,11 +17,11 @@ public class Consommateur {
 
     public String getName(){
         return this.getName();
-    }
+    } 
 
     public double[] getTable(){
-        Consommateurs consoModele = new Consommateurs(this.name);
-        return consoModele.getTable;
+        Consommateurs c = new Consommateurs(this.name);
+        return c.getTable();
     }
 
 }
