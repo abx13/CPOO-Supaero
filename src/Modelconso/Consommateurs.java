@@ -10,16 +10,21 @@ public class Consommateurs {
     private String title;
     private double[] table;
     
-    
-     public Consommateurs(){
+    public Consommateurs(){
         
     }
 
     public Consommateurs(String nom) {
 
+        
+
+        /**
+         * cafe radiateur frigo Petite_Industrie Moyenne_Industrie Grande_Industrie
+         */
+
         if (nom.equals("cafe")) {
 
-            setName("Machine a cafe");
+            setName("cafe");
 
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
@@ -149,8 +154,8 @@ public class Consommateurs {
 
             
         }
-        if (nom.equals("industrie1")) {
-            setName("industrie 1");
+        if (nom.equals("Petite_Industrie")) {
+            setName("Petite_Industrie");
 
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
@@ -159,7 +164,7 @@ public class Consommateurs {
             
 
             if (Param.display_day) {
-                double[] tableau_puissance = fonction.sinusoide(Param.p_max_industrie1, periode);
+                double[] tableau_puissance = fonction.sinusoide(Param.p_max_Petite_Industrie, periode);
 
             op.decalage_tempo(tableau_puissance, 300);
             op.abs(tableau_puissance);
@@ -173,7 +178,7 @@ public class Consommateurs {
                 double[] tableau_pui = new double[Temps.NBJOURSANNEE];
                 for (int j = 0; j < Temps.NBJOURSANNEE; j++) {
 
-                    tableau_pui[j] = rapportCyclique * Param.p_max_industrie1; // marche pas toute la journee
+                    tableau_pui[j] = rapportCyclique * Param.p_max_Petite_Industrie; // marche pas toute la journee
 
                 }
 
@@ -185,8 +190,8 @@ public class Consommateurs {
         }
     
 
-        if (nom.equals("industrie2")) {
-            setName("industrie 2");
+        if (nom.equals("Moyenne_Industrie")) {
+            setName("Moyenne_Industrie");
 
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
@@ -195,7 +200,7 @@ public class Consommateurs {
             
 
             if (Param.display_day) {
-                double[] tableau_puissance = fonction.pwm(Param.p_max_industrie2, periode, rapportCyclique);
+                double[] tableau_puissance = fonction.pwm(Param.p_max_Moyenne_Industrie, periode, rapportCyclique);
 
             op.decalage_tempo(tableau_puissance, 800);
 
@@ -207,7 +212,7 @@ public class Consommateurs {
                 double[] tableau_pui = new double[Temps.NBJOURSANNEE];
                 for (int j = 0; j < Temps.NBJOURSANNEE; j++) {
 
-                    tableau_pui[j] = rapportCyclique * Param.p_max_industrie2; // marche pas toute la journee
+                    tableau_pui[j] = rapportCyclique * Param.p_max_Moyenne_Industrie; // marche pas toute la journee
 
                 }
 
@@ -218,26 +223,26 @@ public class Consommateurs {
 
 
         }
-        if (nom.equals("industrie3")) {
+        if (nom.equals("Grande_Industrie")) {
 
             // industrie type 3, on utilise un peu les fonctions et operations ...
-            setName("industrie 3");
+            setName("Grande_Industrie");
             FonctionAbstraites fonction = new FonctionAbstraites();
             Operations op = new Operations();
             int periode = Temps.NBMINUTESJOUR/4;
             double rapportCyclique = 0.7;
             if (Param.display_day) {
-            double[] tableau_puissance = fonction.pwm(Param.p_max_industrie3, periode, rapportCyclique);
+            double[] tableau_puissance = fonction.pwm(Param.p_max_Grande_Industrie, periode, rapportCyclique);
 
             op.decalage_tempo(tableau_puissance, 400);
             
             
             FonctionAbstraites fonction_ajoute = new FonctionAbstraites();
-            double[] table_ajout = fonction_ajoute.affine(0.001, Param.p_max_industrie3/4);
+            double[] table_ajout = fonction_ajoute.affine(0.001, Param.p_max_Grande_Industrie/4);
             op.sum(tableau_puissance, table_ajout);
 
             FonctionAbstraites fonction_ajoute2 = new FonctionAbstraites();
-            double[] table_ajout2 = fonction_ajoute2.affine(-0.002, -Param.p_max_industrie3/4);
+            double[] table_ajout2 = fonction_ajoute2.affine(-0.002, -Param.p_max_Grande_Industrie/4);
             op.troncage_tempo(table_ajout2, 500);
             op.decalage_tempo(table_ajout2, 900);
             op.sum(tableau_puissance, table_ajout2);
@@ -254,7 +259,7 @@ public class Consommateurs {
                 double[] tableau_pui = new double[Temps.NBJOURSANNEE];
                 for (int j = 0; j < Temps.NBJOURSANNEE; j++) {
 
-                    tableau_pui[j] = rapportCyclique * Param.p_max_industrie3; // marche pas toute la journee
+                    tableau_pui[j] = rapportCyclique * Param.p_max_Grande_Industrie; // marche pas toute la journee
 
                 }
 
@@ -267,57 +272,47 @@ public class Consommateurs {
 
         }
 
-    
-    
-    
-    
-    
-    public void display() {
+        public void display() {
 
-        String legende_x = "temps en min";
-        if (!Param.display_day) {
-            legende_x = "temps en jour";
-
+            String legende_x = "temps en min";
+            if (!Param.display_day) {
+                legende_x = "temps en jour";
+    
+            }
+    
+            String legende_Y = "Puissance en MW";
+            String legende_X = legende_x;
+    
+            EventQueue.invokeLater(() -> {
+    
+                var ex = new LineChartEx(table, legende_X, legende_Y, title);
+                ex.setVisible(true);
+    
+            });
+    
+        }
+    
+        public void display(double[] tableau, String titre) {
+    
+            String legende_x = "temps en min";
+            if (!Param.display_day) {
+                legende_x = "temps en jour";
+    
+            }
+    
+            String legende_Y = "Puissance en MW";
+            String legende_X = legende_x;
+    
+            EventQueue.invokeLater(() -> {
+    
+                var ex = new LineChartEx(tableau, legende_X, legende_Y, titre );
+                ex.setVisible(true);
+    
+            });
+    
         }
 
-        String legende_Y = "Puissance en MW";
-        String legende_X = legende_x;
 
-        EventQueue.invokeLater(() -> {
-
-            var ex = new LineChartEx(table, legende_X, legende_Y, title);
-            ex.setVisible(true);
-
-        });
-
-    }
-
-    public void display(double[] tableau, String titre) {
-
-        String legende_x = "temps en min";
-        if (!Param.display_day) {
-            legende_x = "temps en jour";
-
-        }
-
-        String legende_Y = "Puissance en MW";
-        String legende_X = legende_x;
-
-        EventQueue.invokeLater(() -> {
-
-            var ex = new LineChartEx(tableau, legende_X, legende_Y, titre );
-            ex.setVisible(true);
-
-        });
-
-    }
-
-    
-    
-    // getters and setters
-    
-    
-    
 
     public String getName() {
         return this.title;
@@ -343,8 +338,10 @@ public class Consommateurs {
         this.table = table;
     }
 
+    
+
     public static void main(String[] args) {
-        Consommateurs cons = new Consommateurs("industrie3");
+        Consommateurs cons = new Consommateurs("Grande_Industrie");
 
         cons.display();
 
