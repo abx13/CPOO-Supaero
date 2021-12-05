@@ -5,17 +5,16 @@ package producteurs;
  * 
  * @author Anna Barraqué
  */
-public interface Producteur {
+public class Producteur {
 
-    /**
-     * Chaque producteur doit calculer la puissance produite sur l'année.
-     */
-    public double[] computeDay();
+    private String name;
 
-    /**
-     * Chaque producteur doit calculer la puissance produite par minute sur une
-     * journée donnée.
-     */
-    public double[] computeMinute(int journee);
+    public Producteur(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.getName();
+    }
 
 }

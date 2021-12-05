@@ -5,17 +5,21 @@ package consommateurs;
  * 
  * @author Anna Barraqué
  */
-public interface Consommateur {
+public class Consommateur {
 
-    /**
-     * Chaque consommateur doit calculer sa puissance consommée sur l'année.
-     */
-    public double[] computeDay();
+    private String name;
 
-    /**
-     * Chaque consommateur doit calculer sa puissance consommée par minute sur une
-     * journée donnée.
-     */
-    public double[] computeMinute(int journee);
+    public Consommateur(String name){
+        this.name = name;
+    }
+
+    public String getName(){
+        return this.getName();
+    }
+
+    public double[] getTable(){
+        Consommateurs consoModele = new Consommateurs(this.name);
+        return consoModele.getTable;
+    }
 
 }

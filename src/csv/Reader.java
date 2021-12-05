@@ -38,7 +38,7 @@ public class Reader {
      * @return clusters, une liste de clusters initialisés.
      */
     public static ArrayList<Cluster> readFiles(String filenameCluster, String filenameRoute,
-            String filenameProducteurs, String filenameConsommateurs) {
+            String filenameParametres, String filenameProducteursConsommateurs) {
 
         // on lit le fichier decrivant l'indice, les coordonnes et le cluster producteur
         // de chaque cluster
@@ -50,10 +50,10 @@ public class Reader {
         clusters = Reader.readRouteCluster(filenameRoute, clusters);
 
         // on lit les fichiers décrivant les producteurs
-        clusters = Reader.readProducteurs(filenameProducteurs, clusters);
+        Reader.readParametre(filenameParametres);
 
         // on lit les fichiers décrivant les consommateurs
-        clusters = Reader.readConsommateurs(filenameConsommateurs, clusters);
+        clusters = Reader.readProducteursConsommateurs(filenameProducteursConsommateurs, clusters);
 
         return clusters;
     }
@@ -157,18 +157,45 @@ public class Reader {
 
     }
 
-    /**
-     * Cette méthode permet de lire le fichier de producteurs. Cette méthode appelle
-     * ensuite d'autres méthodes qui sont spécifique à la lecture des différents
-     * types de producteurs existants. Elle ajoute ensuite les producteurs lus au
-     * cluster auquel ils sont associés.
-     * 
-     * @param filename, le fichier csv correspondant
-     * @param clusters, la liste de clusters préalablement établie
-     * @return clusters, la liste de clusters à laquelle on a rajouté les
-     *         producteurs.
-     */
-    public static ArrayList<Cluster> readProducteurs(String filename, ArrayList<Cluster> clusters) {
+    public static void readParametre(String filename){
+        try {
+            Scanner sc = new Scanner(new File(filename));
+
+            while (sc.hasNext()) {
+                String res = sc.next();
+                String[] s = res.split(";");
+                
+                int jour = Integer.parseInt(s[0]);
+                
+                double rendement = Double.parseDouble(s[1]);
+                double p_max_nucleaire = Double.parseDouble(s[2]);
+                double diametre = Double.parseDouble(s[3]);
+                double p_max_eolienne = Double.parseDouble(s[4]);
+                double p_max_cafe = Double.parseDouble(s[5]);
+                int nb_utilisation_jour_cafe = Integer.parseInt(s[6]);
+                double p_frigo = Double.parseDouble(s[7]);
+                double p_max_industrie1 = Double.parseDouble(s[8]);
+                double p_max_industrie2 = Double.parseDouble(s[9]);
+                double p_max_industrie3 = Double.parseDouble(s[10]);
+
+                int nbFrigoFoyer1 = Integer.parseInt(s[11]);
+                int nbFrigoFoyer2 = Integer.parseInt(s[12]);
+                int nbRadiateurFoyer1 = Integer.parseInt(s[13]);
+                int nbRadiateurFoyer2 = Integer.parseInt(s[14]);
+                int nbMachineCafeFoyer1 = Integer.parseInt(s[15]);
+                int nbMachineCafeFoyer2 = Integer.parseInt(s[16]);
+
+                Param.setParam(jour, rendement, p_max_nucleaire, diametre, p_max_eolienne, p_max_cafe, nb_utilisation_jour_cafe,p_frigo, p_max_industrie1, p_max_industrie2, p_max_industrie3 );
+
+            }
+            sc.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public static ArrayList<Cluster> readProducteursConsommateurs(String filename, ArrayList<Cluster> clusters) {
+
         try {
             Scanner sc = new Scanner(new File(filename));
 
@@ -176,17 +203,48 @@ public class Reader {
                 String res = sc.next();
                 String[] s = res.split(";");
 
-                switch (s[0]) {
-                    case "Nucleaire":
-                        clusters = Reader.readProducteurControle(s, clusters);
-                        break;
-                    case "Eolien":
-                        clusters = Reader.readProducteurCondExt(s, clusters);
-                        break;
-                    case "PV":
-                        clusters = Reader.readProducteurCondExt(s, clusters);
-                        break;
+                ArrayList<Producteur> producteurs = new ArrayList<>();
+                ArrayList<Consommateur> consommateurs = new ArrayList<>();
+
+                int clusterNumber = Integer.parseInt(s[0]);
+
+                for (int i = 1; i < s.length; i++) {
+                    String[] element = s[i].split("/");
+                    String name = element[0];
+                    int nombre = Integer.parseInt(element[1]);
+
+                    
+                    if (name.equals("nucleaire") || name.equals("eolien") || name.equals("solaire")) {
+                        for (int j = 0; j < nombre; j++) {
+                            producteurs.add(new producteurs.Producteur(name));
+                        }
+                    } else {
+                        if (name.equals("industrie1") || name.equals("industrie2") || name.equals("industrie3")) {
+                            for (int j = 0; j < nombre; j++) {
+                                consommateurs.add(new consommateurs.Consommateur(name));
+                            }
+                        }else{
+                            if(name.equals("foyer1")||name.equals("foyer2")){
+                                int nbFrigo = Integer.parseInt(element[2]);
+                                int nbMachineCafe = Integer.parseInt(element[3]);
+                                int nbRadiateur = Integer.parseInt(element[4]);
+                            
+                                for (int j = 0; j < nombre; j++) {
+                                    consommateurs.add(new consommateurs.Foyer(name, nbFrigo, nbMachineCafe, nbRadiateur));
+                                }
+                            }
+                        }
+
+                    }
                 }
+                try {
+                    int clusterIndex = Reader.findIndexCluster(clusterNumber, clusters);
+                    clusters.get(clusterIndex).setProducteurs(producteurs);
+                    clusters.get(clusterIndex).setConsommateurs(consommateurs);
+                } catch (IndexNotFoundException e) {
+                    System.out.println("Index " + clusterNumber + " Not Found in clusters.");
+                }
+
             }
             sc.close();
 
@@ -198,245 +256,7 @@ public class Reader {
 
     }
 
-    /**
-     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la
-     * production est constante (Nucléaire).
-     * 
-     * @param s,        le tableau de String lus par la méthode ReadProducteurs
-     *                  comportant les paramètres de ce producteur
-     * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs
-     *         constants.
-     */
-    public static ArrayList<Cluster> readProducteurControle(String[] s, ArrayList<Cluster> clusters) {
-
-        ArrayList<Producteur> producteurs = new ArrayList<>();
-
-        // l'indice du cluster pour lequel on lit la route
-        int clusterNumber = Integer.parseInt(s[1]);
-
-        int nb = Integer.parseInt(s[2]);
-
-        double puissMax = Double.parseDouble(s[3]);
-
-        for (int i = 0; i < nb; i++) {
-            producteurs.add(new ProducteurControle(puissMax));
-        }
-        try {
-            int clusterIndex = Reader.findIndexCluster(clusterNumber, clusters);
-            clusters.get(clusterIndex).addProducteurs(producteurs);
-        } catch (IndexNotFoundException e) {
-            System.out.println("Index " + clusterNumber + " Not Found in clusters.");
-        }
-
-        return clusters;
-    }
-
-    /**
-     * Cette méthode est la méthode spécifique à la lecture des producteurs dont la
-     * production dépend des conditions extérieures (Eolien ou PV).
-     * 
-     * @param s,        le tableau de String lus par la méthode ReadProducteurs
-     *                  comportant les paramètres de ce producteur
-     * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les producteurs
-     *         dépendant des conditions extérieures.
-     */
-    public static ArrayList<Cluster> readProducteurCondExt(String[] s, ArrayList<Cluster> clusters) {
-
-        ArrayList<Producteur> producteurs = new ArrayList<>();
-
-        int clusterNumber = Integer.parseInt(s[1]);
-        int nb = Integer.parseInt(s[2]);
-        String[] paramString = s[3].split("/");
-
-        double puissMax = Double.parseDouble(paramString[0]);
-        Double[] saisons = Reader.toDoubles(paramString[1].split(","));
-        Double[] heures = Reader.toDoubles(paramString[2].split(","));
-
-        HashMap<String, Double> moisActif = new HashMap<>(
-                Map.ofEntries(Map.entry("winter", saisons[0]), Map.entry("spring", saisons[1]),
-                        Map.entry("summer", saisons[2]),
-                        Map.entry("fall", saisons[3])));
-        Double[][] heureActif = new Double[][] {
-                { heures[0], heures[1], heures[2], heures[3], heures[4], heures[5], heures[6], heures[7], heures[8],
-                        heures[9], heures[10], heures[11], heures[12] },
-                { heures[13], heures[14], heures[15], heures[16], heures[17], heures[18], heures[19], heures[20],
-                        heures[21], heures[22], heures[23] } };
-
-        for (int i = 0; i < nb; i++) {
-            producteurs.add(new ProducteurCondExt(puissMax, moisActif, heureActif));
-        }
-
-        try {
-            int clusterindex = Reader.findIndexCluster(clusterNumber, clusters);
-            clusters.get(clusterindex).addProducteurs(producteurs);
-        } catch (IndexNotFoundException e) {
-            System.out.println("Index " + clusterNumber + " Not Found in clusters.");
-        }
-
-        return clusters;
-    }
-
-    /**
-     * Cette méthode permet de lire le fichier de consommateurs. Cette méthode
-     * appelle
-     * ensuite d'autres méthodes qui sont spécifique à la lecture des différents
-     * types de consommateurs existants. Elle ajoute ensuite les consommateurs lus
-     * au
-     * cluster auquel ils sont associés.
-     * 
-     * @param filename, le fichier csv correspondant
-     * @param clusters, la liste de clusters préalablement établie
-     * @return clusters, la liste de clusters à laquelle on a rajouté les
-     *         consommateurs.
-     */
-    public static ArrayList<Cluster> readConsommateurs(String filename, ArrayList<Cluster> clusters) {
-        try {
-            Scanner sc = new Scanner(new File(filename));
-
-            while (sc.hasNext()) {
-                String res = sc.next();
-                String[] s = res.split(";");
-
-                switch (s[0]) {
-                    case "Frigo":
-                        clusters = Reader.readAppareilConstant(s, clusters);
-                        break;
-                    case "Radiateur":
-                        clusters = Reader.readAppareilCyclique(s, clusters);
-                        break;
-                    case "MachineCafe":
-                        clusters = Reader.readAppareilFrequentiel(s, clusters);
-                        break;
-                }
-            }
-            sc.close();
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-
-        return clusters;
-
-    }
-
-    /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
-     * la consommation est constante (Frigo).
-     * 
-     * @param s,        le tableau de String lus par la méthode ReadProducteurs
-     *                  comportant les paramètres de ce consommateur
-     * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les
-     *         consommateurs constants.
-     */
-    public static ArrayList<Cluster> readAppareilConstant(String[] s, ArrayList<Cluster> clusters) {
-
-        ArrayList<Consommateur> appareils = new ArrayList<>();
-
-        int clusterNumber = Integer.parseInt(s[1]);
-        int nb = Integer.parseInt(s[2]);
-
-        double puissMax = Double.parseDouble(s[3]);
-        for (int i = 0; i < nb; i++) {
-            appareils.add(new AppareilConstant(puissMax));
-        }
-
-        try {
-            int clusterindex = Reader.findIndexCluster(clusterNumber, clusters);
-            clusters.get(clusterindex).addConsommateurs(appareils);
-        } catch (IndexNotFoundException e) {
-            System.out.println("Index " + clusterNumber + " Not Found in clusters.");
-        }
-
-        return clusters;
-    }
-
-    /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
-     * la consommation est fréquentielle (Machine à Café).
-     * 
-     * @param s,        le tableau de String lus par la méthode ReadProducteurs
-     *                  comportant les paramètres de ce consommateur
-     * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les
-     *         consommateurs fréquentiels.
-     */
-    public static ArrayList<Cluster> readAppareilFrequentiel(String[] s, ArrayList<Cluster> clusters) {
-
-        ArrayList<Consommateur> appareils = new ArrayList<>();
-
-        int clusterNumber = Integer.parseInt(s[1]);
-        int nb = Integer.parseInt(s[2]);
-        String[] paramString = s[3].split("/");
-
-        double puissMax = Double.parseDouble(paramString[0]);
-        double frequence = Double.parseDouble(paramString[1]);
-        double tempsUtilisation = Double.parseDouble(paramString[2]);
-        String[] plageString = paramString[3].split(",");
-        Integer[] plageUtilisation = new Integer[] { Integer.parseInt(plageString[0]),
-                Integer.parseInt(plageString[1]) };
-
-        for (int i = 0; i < nb; i++) {
-            appareils.add(new AppareilFrequentiel(puissMax, frequence, tempsUtilisation, plageUtilisation));
-        }
-
-        try {
-            int clusterindex = Reader.findIndexCluster(clusterNumber, clusters);
-            clusters.get(clusterindex).addConsommateurs(appareils);
-        } catch (IndexNotFoundException e) {
-            System.out.println("Index " + clusterNumber + " Not Found in clusters.");
-        }
-
-        return clusters;
-    }
-
-    /**
-     * Cette méthode est la méthode spécifique à la lecture des consommateurs dont
-     * la consommation est cyclique (Radiateur).
-     * 
-     * @param s,        le tableau de String lus par la méthode ReadProducteurs
-     *                  comportant les paramètres de ce consommateur
-     * @param clusters, la liste de clusters prélablement établie.
-     * @return clusters, la liste de cluster à laquelle on a rajouté les
-     *         consommateurs cycliques.
-     */
-    public static ArrayList<Cluster> readAppareilCyclique(String[] s, ArrayList<Cluster> clusters) {
-
-        ArrayList<Consommateur> appareils = new ArrayList<>();
-
-        int clusterNumber = Integer.parseInt(s[1]);
-        int nb = Integer.parseInt(s[2]);
-        String[] paramString = s[3].split("/");
-
-        double puissMax = Double.parseDouble(paramString[0]);
-        Double[] saisons = Reader.toDoubles(paramString[1].split(","));
-        Double[] heures = Reader.toDoubles(paramString[2].split(","));
-
-        HashMap<String, Double> moisActif = new HashMap<>(
-                Map.ofEntries(Map.entry("winter", saisons[0]), Map.entry("spring", saisons[1]),
-                        Map.entry("summer", saisons[2]),
-                        Map.entry("fall", saisons[3])));
-        Double[][] heureActif = new Double[][] {
-                { heures[0], heures[1], heures[2], heures[3], heures[4], heures[5], heures[6], heures[7], heures[8],
-                        heures[9], heures[10], heures[11], heures[12] },
-                { heures[13], heures[14], heures[15], heures[16], heures[17], heures[18], heures[19], heures[20],
-                        heures[21], heures[22], heures[23] } };
-        for (int i = 0; i < nb; i++) {
-            appareils.add(new AppareilCyclique(puissMax, moisActif, heureActif));
-        }
-
-        int clusterindex;
-        try {
-            clusterindex = Reader.findIndexCluster(clusterNumber, clusters);
-            clusters.get(clusterindex).addConsommateurs(appareils);
-        } catch (IndexNotFoundException e) {
-            System.out.println("Index " + clusterNumber + " Not Found in clusters.");
-        }
-
-        return clusters;
-    }
+    
 
     /**
      * Cette méthode permet de trouver l'indice dans l'arraylist de clusters d'un

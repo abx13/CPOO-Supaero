@@ -42,23 +42,31 @@ public class Ville {
     }
 
     /**
+     * Cette méthode permet d'ajouter un producteur
+     */
+    public void addProducteur(Producteur p){
+        this.producteurs.add(p);
+    }
+
+     /**
+     * Cette méthode permet d'ajouter un consommateur
+     */
+    public void addConsommateur(Consommateur c){
+        this.consommateurs.add(c);
+    }
+
+    /**
      * Cette méthode est un setteur pour l'attribut producteurs 
      */
-    public void addProducteurs(ArrayList<Producteur> producteursAdd){
-        ArrayList<Producteur> prod = new ArrayList<>();
-        prod.addAll(this.producteurs);
-        prod.addAll(producteursAdd);
-        this.producteurs = prod;
+    public void setProducteurs(ArrayList<Producteur> producteursAdd){
+        this.producteurs = producteursAdd;
     }
 
     /**
      * Cette méthode est un setteur pour l'attribut consommateurs 
      */
-    public void addConsommateurs(ArrayList<Consommateur> consommateursAdd){
-        ArrayList<Consommateur> conso = new ArrayList<>();
-        conso.addAll(this.consommateurs);
-        conso.addAll(consommateursAdd);
-        this.consommateurs = conso;
+    public void setConsommateurs(ArrayList<Consommateur> consommateursAdd){
+        this.consommateurs = consommateursAdd;
     }
 
     /**
@@ -152,7 +160,8 @@ public class Ville {
         // on get les puissances de tous les consommateurs
         double[][] puissConso = new double[consommateurs.size()][Temps.NBMINUTESJOUR];
         for (int j = 0; j < consommateurs.size(); j++) {
-            puissConso[j] = consommateurs.get(j).computeMinute(journee);
+            Consommateurs consoModele = new Consommateurs(consommateurs.get(j).getName());
+            puissConso[j] = consoModele.getTable();
         }
 
         // on calcule la somme de la consommation sur chaque minute
@@ -182,7 +191,8 @@ public class Ville {
         // on get les puissances de tous les prod
         double[][] puissProd = new double[producteurs.size()][Temps.NBMINUTESJOUR];
         for (int j = 0; j < producteurs.size(); j++) {
-            puissProd[j] = producteurs.get(j).computeMinute(journee);
+            Producteurs prodModele = new Producteurs(producteurs.get(j).getName());
+            puissProd[j] = prodModele.getTable();
         }
 
         // on calcule la somme de la production sur chaque minute
