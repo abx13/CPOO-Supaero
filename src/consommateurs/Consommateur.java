@@ -21,6 +21,7 @@ public class Consommateur {
 
     public double[] getTable(){
         Consommateurs c = new Consommateurs(this.name);
+        System.out.println(this.name);
         return c.getTable();
     }
 

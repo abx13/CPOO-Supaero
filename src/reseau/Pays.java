@@ -17,7 +17,7 @@ import reseau.Cluster;
 public class Pays {
 
     private String nom; // nom du pays
-    ArrayList<Cluster> clusters; // liste des villes de ce pays
+    private ArrayList<Cluster> clusters; // liste des villes de ce pays
 
     public Pays(ArrayList<Cluster> clusters) {
         this.clusters = clusters;
@@ -117,5 +117,18 @@ public class Pays {
         return clustersJour;
 
     }
+
+
+    public String getNom() {
+        return this.nom;
+    }
+
+
+    public ArrayList<Cluster> getClusters() {
+        return this.clusters;
+    }
+
+    
+    
 
 }

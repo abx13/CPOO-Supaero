@@ -99,15 +99,15 @@ public class Cluster extends Ville {
      * @return un tableau de 6 colonnes de puissance consommée et/ou produite pour
      *         chaque minute ainsi que les pertes dues au transport de l'énergie
      */
-    public double[][] computeMinute(int journee, double coefPerte) {
+    public double[][] getTable(double coefPerte) {
         double[][] clusterMinute = new double[Temps.NBMINUTESJOUR][6];
-        double[][] productionMinute = super.computeMinute(journee);
-        for (int i = 0; i < Temps.NBMINUTESJOUR; i++) {
-            clusterMinute[i][0] = productionMinute[i][0];
-            clusterMinute[i][1] = productionMinute[i][1];
-            clusterMinute[i][2] = productionMinute[i][2];
-            clusterMinute[i][3] = productionMinute[i][3];
-            clusterMinute[i][4] = productionMinute[i][4];
+        double[][] production = super.getTable();
+        for (int i = 0; i < production.length; i++) {
+            clusterMinute[i][0] = production[i][0];
+            clusterMinute[i][1] = production[i][1];
+            clusterMinute[i][2] = production[i][2];
+            clusterMinute[i][3] = production[i][3];
+            clusterMinute[i][4] = production[i][4];
             clusterMinute[i][5] = calculPerte(coefPerte);
         }
 
@@ -123,7 +123,7 @@ public class Cluster extends Ville {
      *         chaque journée ainsi que les valeurs cumulées sur la journée et les
      *         pertes dues au transport de l'énergie
      */
-    public double[][] computeDay(double coefPerte) {
+    /*public double[][] computeDay(double coefPerte) {
         double[][] clusterDay = new double[Temps.NBJOURSANNEE][6];
         double[][] productionDay = super.computeDay();
         for (int i = 0; i < Temps.NBJOURSANNEE; i++) {
@@ -136,6 +136,6 @@ public class Cluster extends Ville {
         }
 
         return clusterDay;
-    }
+    }*/
 
 }
