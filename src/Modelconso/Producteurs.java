@@ -144,27 +144,6 @@ public class Producteurs {
 
 
 
-
-
-        
-
-    public String getName() {
-        return this.name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public double[] getTable() {
-        return this.table;
-    }
-
-    public void setTable(double[] table) {
-        this.table = table;
-
-    }
-
     
 
 
@@ -188,6 +167,27 @@ public class Producteurs {
         });
 
     }
+
+
+        
+
+    public String getName() {
+        return this.name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public double[] getTable() {
+        return this.table;
+    }
+
+    public void setTable(double[] table) {
+        this.table = table;
+
+    }
+
 
     public static void main(String[] args) {
         Producteurs eolienne = new Producteurs("eolien");
