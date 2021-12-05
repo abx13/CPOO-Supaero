@@ -9,6 +9,11 @@ public class Consommateurs {
     private String name;
     private String title;
     private double[] table;
+    
+    
+     public Consommateurs(){
+        
+    }
 
     public Consommateurs(String nom) {
 
