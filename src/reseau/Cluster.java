@@ -7,6 +7,13 @@ import consommateurs.*;
 import simulation.Ville;
 import simulation.Temps;
 
+/**
+ * Cette classe permet de simuler un cluster consommateur d'énergie et ayant un
+ * producteur. Elle calcule la production et consommation d'énergie pour chaque
+ * minute de la journée donnée ainsi que pour chaque jour de l'année.
+ * 
+ * @author MG
+ */
 public class Cluster extends Ville {
 
     private int clusterNumber; // numéro associé à ce cluster consommateur
@@ -34,30 +41,25 @@ public class Cluster extends Ville {
         this.x = x;
         this.y = y;
         this.clusterProducteur = clusterProducteur;
-        this.route = new ArrayList<Cluster>() ;
+        this.route = new ArrayList<Cluster>();
     }
 
-
-    public void setRoute(ArrayList<Cluster> route){
+    public void setRoute(ArrayList<Cluster> route) {
         this.route = route;
     }
 
-
-    public double getX(){
+    public double getX() {
         return this.x;
     }
 
-
-    public double getY(){
+    public double getY() {
         return this.y;
     }
 
-
-    public int getClusterNumber(){
+    public int getClusterNumber() {
         return this.clusterNumber;
     }
 
-    
     /**
      * 
      * @return la distance parcourue par l'energie entre le cluster producteur et le
@@ -71,7 +73,7 @@ public class Cluster extends Ville {
             double y1 = route.get(i).getY();
             double y2 = route.get(i + 1).getY();
             dist += Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
-            
+
         }
         return dist;
     }
@@ -88,6 +90,15 @@ public class Cluster extends Ville {
         return calcul;
     }
 
+    /**
+     * Cette méthode permet de calculer la valeur de la puissance produite et
+     * consommée dans le cluster pour chaque minute de la journée donnée.
+     * 
+     * @param journee
+     * @param coefPerte
+     * @return un tableau de 6 colonnes de puissance consommée et/ou produite pour
+     *         chaque minute ainsi que les pertes dues au transport de l'énergie
+     */
     public double[][] computeMinute(int journee, double coefPerte) {
         double[][] clusterMinute = new double[Temps.NBMINUTESJOUR][6];
         double[][] productionMinute = super.computeMinute(journee);
@@ -103,10 +114,19 @@ public class Cluster extends Ville {
         return clusterMinute;
     }
 
+    /**
+     * Cette méthode permet de calculer la valeur de la puissance produite et
+     * consommée dans le cluster pour chaque jour de l'année.
+     * 
+     * @param coefPerte
+     * @return un tableau de 6 colonnes de puissance consommée et/ou produite pour
+     *         chaque journée ainsi que les valeurs cumulées sur la journée et les
+     *         pertes dues au transport de l'énergie
+     */
     public double[][] computeDay(double coefPerte) {
         double[][] clusterDay = new double[Temps.NBJOURSANNEE][6];
         double[][] productionDay = super.computeDay();
-        for (int i = 0; i < Temps.NBJOURSANNEE; i++){
+        for (int i = 0; i < Temps.NBJOURSANNEE; i++) {
             clusterDay[i][0] = productionDay[i][0];
             clusterDay[i][1] = productionDay[i][1];
             clusterDay[i][2] = productionDay[i][2];
@@ -117,7 +137,5 @@ public class Cluster extends Ville {
 
         return clusterDay;
     }
-
-
 
 }
