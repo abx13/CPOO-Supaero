@@ -196,7 +196,7 @@ public class Reader {
             while (sc.hasNext()) {
                 String res = sc.next();
                 String[] s = res.split(";");
-                System.out.println(s.length);
+               
 
                 ArrayList<Producteur> producteurs = new ArrayList<>();
                 ArrayList<Consommateur> consommateurs = new ArrayList<>();

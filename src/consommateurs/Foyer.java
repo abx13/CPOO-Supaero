@@ -39,6 +39,7 @@ public class Foyer extends Consommateur {
     public double[] getTable(){
         double[][] puiss = new double[this.appareils.size()][];
         for(int i=0; i<this.appareils.size(); i++){
+            System.out.println(this.appareils.get(i).getName());
             Consommateurs c = new Consommateurs(this.appareils.get(i).getName());
             puiss[i] = c.getTable();
         }

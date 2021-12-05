@@ -17,9 +17,9 @@ public class Param {
     protected static double p_max_cafe = 0.0005; //en MW
     protected static int nb_utilisation_jour_cafe = 3;
     protected static double p_frigo = 0.0005; //en MW
-    protected static double p_max_industrie1 = 10; //en MW
-    protected static double p_max_industrie2 = 100; //en MW
-    protected static double p_max_industrie3 = 1; //en MW
+    protected static double p_max_Petite_Industrie = 1; //en MW
+    protected static double p_max_Moyenne_Industrie = 10; //en MW
+    protected static double p_max_Grande_Industrie = 100; //en MW
     protected static double p_max_radiateur = 0.0006; //en MW
 
     
@@ -36,9 +36,9 @@ public class Param {
         Param.p_frigo = p_frigo;
         Param.p_max_cafe = p_max_cafe;
         Param.p_max_eolienne = p_max_eolienne;
-        Param.p_max_industrie1 = p_max_industrie1;
-        Param.p_max_industrie2 = p_max_industrie2;
-        Param.p_max_industrie3 = p_max_industrie3;
+        Param.p_max_Petite_Industrie = p_max_industrie1;
+        Param.p_max_Moyenne_Industrie = p_max_industrie2;
+        Param.p_max_Grande_Industrie = p_max_industrie3;
         Param.diametre = diametre;
         Param.nb_utilisation_jour_cafe = nb_utilisation_jour_cafe;
         Param.p_max_radiateur = p_max_radiateur;

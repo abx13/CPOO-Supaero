@@ -16,12 +16,11 @@ public class Consommateur {
     }
 
     public String getName(){
-        return this.getName();
+        return this.name;
     } 
 
     public double[] getTable(){
         Consommateurs c = new Consommateurs(this.name);
-        System.out.println(this.name);
         return c.getTable();
     }
 
