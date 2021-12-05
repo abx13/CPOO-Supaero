@@ -263,31 +263,10 @@ public class Consommateurs {
         }
 
     
-
-    public String getName() {
-        return this.title;
-    }
-
-    public void setName(String title) {
-        this.title = title;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public double[] getTable() {
-        return this.table;
-    }
-
-    public void setTable(double[] table) {
-        this.table = table;
-    }
-
+    
+    
+    
+    
     public void display() {
 
         String legende_x = "temps en min";
@@ -326,6 +305,37 @@ public class Consommateurs {
 
         });
 
+    }
+
+    
+    
+    // getters and setters
+    
+    
+    
+
+    public String getName() {
+        return this.title;
+    }
+
+    public void setName(String title) {
+        this.title = title;
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public double[] getTable() {
+        return this.table;
+    }
+
+    public void setTable(double[] table) {
+        this.table = table;
     }
 
     public static void main(String[] args) {
