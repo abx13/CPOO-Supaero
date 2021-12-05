@@ -1,0 +1,35 @@
+
+simulation sur journee ou année???
+
+COND EXT:
+quelle jour dans l'année?
+lieu en france
+
+eoliene:
+diametre max eolienne grande petite
+
+
+solaire:
+rendement
+
+
+nucleaire:
+puissance max reacteur
+
+
+
+consommateur:
+
+frigo: puissance max
+radiateur electrique: puissance max
+machine a cafe: puissance max, nombre d'utilisation/jour
+
+industrie type1 puissance max
+industrie type 2 puissance max
+industrie type 3 puissance max
+
+
+
+
+
+
