@@ -9,6 +9,11 @@ public class Producteurs {
     private String name;
     private String title;
     private double[] table;
+    
+    
+     public Producteurs(){
+        
+    }
 
     /**
      * 
